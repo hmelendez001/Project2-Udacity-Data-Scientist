@@ -1,12 +1,20 @@
 # Project2-Udacity-Data-Scientist
 As part of the udacity.com Data Scientist nanodegree, this is project two of the program. This project involves a Disaster Response Pipeline showcasing the following Data Science and Software Engineering Best Practices:
 
-* Github and Code Quality including this repository along with comments, docstring, and unit tests
+* Github and Code Quality including this repository along with comments, docstring in each function, class, or method, unit tests, and logical functions and PEP8 style guideline conventions
 * ETL or Extract Transform Load data setup of a clean dataset
 * Machine Learning including NLP techniques to process text data and the proper use of pipelines and grid search, traning vs. test data, and model evaluation
-* Deployment of our web application showing our visualizations
+* Deployment of our web application showing our Disaster Response Pipeline visualizations
+
+As in my previous project, I have also documented the work in the blog below:
 
 #### My BLOG is HERE: https://hmelendez001.github.io/2021/11/19/Udacity-Data-Scientist-Nanodegree-Project-2.html
+
+# How to Run the Python Scripts
+TODO
+
+# How to Run the Web Application
+TODO
 
 # Libraries Used
 | Library | Description |
@@ -16,9 +24,6 @@ As part of the udacity.com Data Scientist nanodegree, this is project two of the
 | Pandas |This is the work horse behind our analysis for reading in the DataFrame from the CSV file and performing various data analysis and preparation |
 | Seaborn |This was used to generate our heatmap |
 | Sklearn |Used for encoding categorical columns in order to be able to include them in our linear regression model |
-
-# Motivation for this Project
-TODO
 
 # Files in this Repository
 | File | Description |
