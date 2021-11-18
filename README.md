@@ -19,10 +19,12 @@ TODO
 # Libraries Used
 | Library | Description |
 | :--- | :--- |
-| Numpy |This is where numerical constants like np.nan came from|
+| Bootstrap |This was used for our data resampling strategy |
+| Flask |This micro web framework was used as the foundation to our web application dashboard |
 | Matplotlib |This was the plotting library used for seeing bar charts and plotting data |
+| Numpy |This is where numerical constants like np.nan came from|
 | Pandas |This is the work horse behind our analysis for reading in the DataFrame from the CSV file and performing various data analysis and preparation |
-| Seaborn |This was used to generate our heatmap |
+| Plotly |This was the graphing library used to generate our visualizations |
 | Sklearn |Used for encoding categorical columns in order to be able to include them in our linear regression model |
 
 # Files in this Repository
