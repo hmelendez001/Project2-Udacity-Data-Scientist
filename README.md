@@ -1,5 +1,5 @@
 # Project2-Udacity-Data-Scientist
-As part of the udacity.com Data Scientist nanodegree, this is project two of the program. This project involves a Disaster Response Pipeline showcasing the following Data Science and Software Engineering Best Practices:
+As part of the udacity.com Data Scientist nanodegree, this is project two of the program. This project involves a Disaster Response Pipeline dashboard web application showcasing the following Data Science and Software Engineering Best Practices:
 
 * Github and Code Quality including this repository along with comments, docstring in each function, class, or method, unit tests, and logical functions and PEP8 style guideline conventions
 * ETL or Extract Transform Load data setup of a clean dataset
@@ -19,8 +19,8 @@ TODO
 # Libraries Used
 | Library | Description |
 | :--- | :--- |
-| Bootstrap |This was used to simplify writing the HTML5 elements in our web application |
-| Flask |This micro web framework was used to write the backend of our web application dashboard |
+| Bootstrap |This toolkit was used to simplify writing the HTML5 elements including CSS styles in our web application |
+| Flask |This Python micro web framework was used to write the backend of our web application dashboard |
 | Matplotlib |This was the plotting library used for seeing bar charts and plotting data |
 | Numpy |This is where numerical constants like np.nan came from|
 | Pandas |This is the work horse behind our analysis for reading in the DataFrame from the CSV file and performing various data analysis and preparation |
