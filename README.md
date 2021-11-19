@@ -19,8 +19,8 @@ TODO
 # Libraries Used
 | Library | Description |
 | :--- | :--- |
-| Bootstrap |This was used for our data resampling strategy |
-| Flask |This micro web framework was used as the foundation to our web application dashboard |
+| Bootstrap |This was used to simplify writing the HTML5 elements in our web application |
+| Flask |This micro web framework was used to write the backend of our web application dashboard |
 | Matplotlib |This was the plotting library used for seeing bar charts and plotting data |
 | Numpy |This is where numerical constants like np.nan came from|
 | Pandas |This is the work horse behind our analysis for reading in the DataFrame from the CSV file and performing various data analysis and preparation |
