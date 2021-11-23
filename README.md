@@ -21,7 +21,8 @@ TODO
 | :--- | :--- |
 | Bootstrap |This toolkit was used to simplify writing the HTML5 elements including CSS styles in our web application |
 | Flask |This Python micro web framework was used to write the backend of our web application dashboard |
-| Matplotlib |This was the plotting library used for seeing bar charts and plotting data |
+| Gunicorn | This is needed for web application deployment |
+| Heroku | This is used to access the hosting platform |
 | Numpy |This is where numerical constants like np.nan came from|
 | Pandas |This is the work horse behind our analysis for reading in the DataFrame from the CSV file and performing various data analysis and preparation |
 | Plotly |This was the graphing library used to generate our visualizations |
@@ -31,7 +32,11 @@ TODO
 | File | Description |
 | :--- | :--- |
 | TODO | TODO: The Python package files |
+| dashboard.py | The main python file to run the web application |
+| Procfile | Instructs the runtime to use gunicorn to run our dashboard |
 | README.md | The file you are currently reading |
+| requirements.txt | Contains the list of required libraries as listed in the "Libraries Used" section above but includes the versions required at run time |
+| runtime.txt | The Python runtime version being used |
 | data.csv | TODO |
 
 # Summary of the results
