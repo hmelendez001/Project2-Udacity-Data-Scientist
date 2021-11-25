@@ -1,6 +1,7 @@
 import sys
 import pickle
 import nltk
+from nltk.corpus import stopwords
 nltk.download(['punkt', 'stopwords', 'wordnet', 'averaged_perceptron_tagger'])
 
 import re
@@ -127,17 +128,20 @@ def load_data(database_filepath):
     # load data from database
     engine = create_engine('sqlite:///' + database_filepath)
     df = pd.read_sql_table('Messages', engine)
-    X, y = make_multilabel_classification(n_classes=36, random_state=0)
-    X = df.message.values
-    
-    df.apply(pd.to_numeric, errors='ignore')
-    # y Needs to be an array of arrays where each inner array is 36 elements, where our binary categories start after column 3
+    X, y = make_multilabel_classification(n_features=1, n_classes=36, random_state=0)
+    # categories start at index 3
+    categories_start_here = 3
+    category_names = df.columns[categories_start_here:-1]
     for i in range(0, len(y)):
         for j in range(0, len(y[i])):
-            y[i, j] = df.iloc[i][j+3]
-    #y = df.loc[:, ~df.columns.isin(['message', 'original', 'genre'])]
+            y[i, j] = df.iloc[i][j+categories_start_here]
+    lenX = len(X)
+    X = [] * lenX
+    for k in range(0, lenX):
+        ####X.append([])
+        X.append(df.message[k])
     
-    return X, y, y.columns
+    return X, y, category_names
 
 def tokenize(text):
     """
@@ -173,6 +177,7 @@ def tokenize(text):
     tokens = word_tokenize(text)
     
     # lemmatize and remove stop words
+    stop_words = set(stopwords.words('english'))
     tokens = [lemmatizer.lemmatize(word).strip() for word in tokens if word not in stop_words]
 
     return tokens
@@ -201,10 +206,10 @@ def build_model():
 
             ('text_pipeline', Pipeline([
                 ('vect', CountVectorizer(tokenizer=tokenize)),
-                ('tfidf', TfidfTransformer())
+                ('tfidf', TfidfTransformer()),
             ])),
 
-            ('urgent_words', UrgencyWordExtractor())
+            ('urgent_words', UrgencyWordExtractor()),
         ])),
 
         ('clf', MultiOutputClassifier(KNeighborsClassifier())),
@@ -216,8 +221,8 @@ def build_model():
         'features__text_pipeline__vect__max_df': (0.5, 0.75, 1.0),
         'features__text_pipeline__vect__max_features': (None, 5000, 10000),
         'features__text_pipeline__tfidf__use_idf': (True, False),
-        'clf__n_estimators': [50, 100, 200],
-        'clf__min_samples_split': [2, 3, 4],
+        #'clf__n_estimators': [50, 100, 200],
+        #'clf__min_samples_split': [2, 3, 4],
     }
 
     # create grid search object
@@ -252,11 +257,11 @@ def evaluate_model(model, X_test, Y_test, category_names):
     #print("    MODEL SCORE: {}".format(model.score(X_test, Y_test)))
     #labels = np.unique(y_pred)
     y_pred = model.predict(X_test)
-    confusion_mat = confusion_matrix(Y_test, y_pred, labels=category_names)
+    ###confusion_mat = confusion_matrix(Y_test, y_pred, labels=category_names)
     accuracy = (y_pred == Y_test).mean()
 
-    print("Labels:", labels)
-    print("Confusion Matrix:\n", confusion_mat)
+    print("Labels:", category_names)
+    ###print("Confusion Matrix:\n", confusion_mat)
     print("Accuracy:", accuracy)
     print("\nBest Parameters:", model.best_params_)
 
