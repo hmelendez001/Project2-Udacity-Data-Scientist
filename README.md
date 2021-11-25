@@ -11,14 +11,15 @@ As in my previous project, I have also documented the work in the blog below:
 #### My BLOG is HERE: https://hmelendez001.github.io/2021/11/19/Udacity-Data-Scientist-Nanodegree-Project-2.html
 
 # How to Run the Python Scripts
-From the root folder run the following python command:
-  python data/process_data.py data/disaster_messages.csv data/disaster_categories.csv data/DisasterResponse.db
+From the root folder run the following python command:<p/>
+##### &nbsp;&nbsp;&nbsp;&nbsp; python data/process_data.py data/disaster_messages.csv data/disaster_categories.csv data/DisasterResponse.db
 
-From the root folder run the following python command:
-  python models/train_classifier.py data/DisasterResponse.db models/classifier.pkl
+From the root folder run the following python command:<p/>
+##### &nbsp;&nbsp;&nbsp;&nbsp; python models/train_classifier.py data/DisasterResponse.db models/classifier.pkl
 
 # How to Run the Web Application
-python run.py
+From the app folder run the following python command:<p/>
+##### &nbsp;&nbsp;&nbsp;&nbsp; python run.py
 
 # Libraries Used
 | Library | Description |
@@ -27,13 +28,16 @@ python run.py
 | Flask | This Python micro web framework was used to write the backend of our web application dashboard |
 | Gunicorn | This is needed for web application deployment |
 | Heroku | This is used to access the hosting platform |
+| JQuery | This is the javascript for manipulating objects on the UI web application dashboard |
+| Json | This is the package for manipulating JSON text and objects |
 | NLTK | This is used by the machine learning pipeline to do the text processing |
 | Numpy | This is where numerical constants like np.nan came from|
 | Pandas | This is the work horse behind our analysis for reading in the DataFrame from the CSV file and performing various data analysis and preparation |
-| Pickle | 
+| Pickle | This is the utility used to store the trained and optimized model for reuse by the UI web application dashboard |
 | Plotly | This was the graphing library used to generate our visualizations |
+| Re | This is the Regular Expression package used for manipulating strings with regex |
 | Sklearn | This is the scikit-learn's Pipeline and GridSearchCV used to build and run our machine learning model |
-| Sqlite3 | This is the SQLite database package used to write to the database |
+| Sqlalchemy | This is the SQLite database package used to write and read to and from the SQL database |
 
 # Files in this Repository
 | File | Description |
