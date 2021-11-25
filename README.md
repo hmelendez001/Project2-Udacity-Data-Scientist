@@ -1,5 +1,11 @@
 # Project2-Udacity-Data-Scientist
-As part of the udacity.com Data Scientist nanodegree, this is project two of the program. This project involves a Disaster Response Pipeline dashboard web application showcasing the following Data Science and Software Engineering Best Practices:
+As part of the udacity.com Data Scientist nanodegree, this is project two of the program. Following a disaster, there are millions of tweets, news alerts, or social media and online messages that are generated. During this critical time, organizations are overwhelmed with data and they need to filter out what is pertinent information from what is just noise. One response organization might be interested in information about water needs, or roads, or medical supplies, etc. But is someone just commenting on water or urgently asking for clean water needs without using the word water? 
+
+There is not enough time for a person to parse through so much data in time for the correct organization to respond effectively. One in every 1,000 messages might actually be important.
+
+Figure Eight, a company specializing in AI data solutions, has provided real social media and online messages that were generated in an actual emergency that will be used for this project.
+
+This project involves a Disaster Response Pipeline dashboard web application showcasing the following Data Science and Software Engineering Best Practices:
 
 * Github and Code Quality including this repository along with comments, docstring in each function, class, or method, unit tests, and logical functions and PEP8 style guideline conventions
 * ETL or Extract Transform Load data setup of a clean dataset
@@ -11,11 +17,15 @@ As in my previous project, I have also documented the work in the blog below:
 #### My BLOG is HERE: https://hmelendez001.github.io/2021/11/19/Udacity-Data-Scientist-Nanodegree-Project-2.html
 
 # How to Run the Python Scripts
-From the root folder run the following python command:<p/>
+From the root folder run the following python command to process and clean the raw data:<p/>
 ##### &nbsp;&nbsp;&nbsp;&nbsp; python data/process_data.py data/disaster_messages.csv data/disaster_categories.csv data/DisasterResponse.db
+Altenatively, to capture run times, from the root folder run the following python command with the time -v prefix:<p/>
+##### &nbsp;&nbsp;&nbsp;&nbsp; time -v python data/process_data.py data/disaster_messages.csv data/disaster_categories.csv data/DisasterResponse.db
 
-From the root folder run the following python command:<p/>
+From the root folder run the following python command to train and save the model:<p/>
 ##### &nbsp;&nbsp;&nbsp;&nbsp; python models/train_classifier.py data/DisasterResponse.db models/classifier.pkl
+Altenatively, to capture run times, from the root folder run the following python command with the time -v prefix:<p/>
+##### &nbsp;&nbsp;&nbsp;&nbsp; time -v python models/train_classifier.py data/DisasterResponse.db models/classifier.pkl
 
 # How to Run the Web Application
 From the app folder run the following python command:<p/>
@@ -62,7 +72,7 @@ From the app folder run the following python command:<p/>
 | runtime.txt | The Python runtime version being used |
 
 # Summary of the results
-TODO: The dataset was imbalanced (i.e. some labels like water have few examples). This imbalance affected training the model...TODO..., and your thoughts about emphasizing precision or recall for the various categories...TODO...
+The dataset given was imbalanced (i.e. some labels like water have few examples and others like search_and_rescue, security, child_alone, shelter, clothing, etc. had none). We discovered this when first evaluating our model and seeing Scikit warnings that read "UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 in labels with no predicted samples." This imbalance affected training the model because our overall precision, recall, f1-score were skewed (with so many 0 results the averages were pulled down). Unlike with other data like financials, temperature readings there really is no way to necessarily impute the data. I cannot simply average out these gaps or even do other imputing strategies like fill forward or fill back data. NLP or Natural Language Processing does not give us these imputing options. Best we might do here to get a better evaluation result would be to emphasize the stats on the categories we know are not missing by passing the labels for the categories we do have.
 
 # Acknowledgements
-Several code snippets came from previous lessons in our Udacity Data Scientist program. Also, where employed I have credited various contributors from StackOverflow.com, kite.com, and the Data Science Stack Exchange at https://datascience.stackexchange.com. A big thank you to our instructors and all those involved in the Udacity program.
+Several code snippets came from previous lessons in our Udacity Data Scientist program. Also, where employed I have credited various contributors from StackOverflow.com, geeksforgeeks.org at https://www.geeksforgeeks.org/, and the Data Science Stack Exchange at https://datascience.stackexchange.com. A big thank you to our instructors and all those involved in the Udacity program.
