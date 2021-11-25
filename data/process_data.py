@@ -35,6 +35,8 @@ def load_data(messages_filepath, categories_filepath):
     categories = pd.read_csv(categories_filepath)
     
     # create a dataframe of the 36 individual category columns
+    # I stored the new 36 columns into into its own DataFrame categories36 because 
+    # I want to preserve the original id column in categories so I can use it to merge later
     categories36 = categories.categories.str.split(";", expand=True)
     # add back the id column because we will need it to merge the two datasets by
     categories36['id'] = categories['id']
@@ -45,14 +47,14 @@ def load_data(messages_filepath, categories_filepath):
     # use this row to extract a list of new column names for categories.
     # one way is to replace all instances of -0 and -1 with a blank string 
     # so we are left with only the name
-    category_colnames = [row[x].values[0].replace("-0","").replace("-1","") for x in range(0, 36)]
+    category_colnames = [row[x].values[0].replace("-0","").replace("-1","") for x in range(0, len(categories36.columns) - 1)]
     # let's not forget the id column, we'll need that again for merging
     category_colnames.append('id')
 
     # rename the columns of `categories`
     categories36.columns = category_colnames
     
-    # concatenate the original dataframe with the new `categories` dataframe
+    # concatenate the original dataframe with the new `categories36` dataframe by id
     frames = [messages.set_index('id'), categories36.set_index('id')]
     df = pd.concat(frames, sort=True, axis=1, join='inner')
     
@@ -83,15 +85,9 @@ def clean_data(df):
     """
     # Convert category values to just numbers 0 or 1, they are still strings
     for column in df:
-         # set each value to be the last character of the string
-        df[column] = df[column].str.replace("{}-".format(column), "")
-
-        #if (~pd.is_numeric_dtype(df[column])):
-        #   continue
-    
-        # convert column from string to numeric
-        df[column].apply(pd.to_numeric, errors='ignore')
-        #pd.to_numeric(df['column'], errors='ignore').notnull().all()
+        if column.endswith("-0") or column.endswith("-1"):
+            # set each value to be the last character of the string and convert column from string to numeric
+            df[column] = df[column].astype(str).replace("{}-".format(column), "").astype(int)
     
     # Clean up duplicates, if any
     if df.duplicated().sum() > 0:
@@ -99,10 +95,10 @@ def clean_data(df):
 
     return df
 
-# Shout out to StackOverFlow user Levon for this nice idempotent drop table logic: https://stackoverflow.com/a/54843210/2788414
 def drop_table(engine, table_name):
     """
-    Given a SQL engine connection and table name drop that table if it already exists in the SQL database
+    Given a SQL engine connection and table name drop that table if it already exists in the SQL database.
+    Shout out to StackOverFlow user Levon for this nice idempotent drop table logic: https://stackoverflow.com/a/54843210/2788414
 
     Parameters
     ----------
@@ -156,6 +152,7 @@ def save_data(df, database_filename):
     # Initialize the SQL engine connection given the database_filename
     engine = create_engine('sqlite:///' + database_filename)
     # This call to drop_table allows us to run this multiple times by dropping the table if it already exists in the database
+    # TODO: This magic string table name should be a parameter that comes from a central configuration instead of hardcoding it across the code
     drop_table(engine, 'Messages')
     # Write the DataFrame to SQL
     df.to_sql('Messages', engine, index=False)  
