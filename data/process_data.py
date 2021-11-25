@@ -1,5 +1,6 @@
 import sys
 import pandas as pd
+from pandas.api.types import is_string_dtype
 from sqlalchemy import create_engine, select, MetaData
 from sqlalchemy.ext.declarative import declarative_base
 
@@ -84,10 +85,12 @@ def clean_data(df):
     
     """
     # Convert category values to just numbers 0 or 1, they are still strings
-    for column in df:
-        if column.endswith("-0") or column.endswith("-1"):
-            # set each value to be the last character of the string and convert column from string to numeric
-            df[column] = df[column].astype(str).replace("{}-".format(column), "").astype(int)
+    for column in df.columns:
+        if is_string_dtype(df[column]) and (df[column].iloc[0].endswith("-0") or df[column].iloc[0].endswith("-1")):
+            # set each value to be the last character of the string
+            df[column] = df[column].apply(lambda x: x.replace("{}-".format(column), ""))
+            # convert column from string to numeric
+            df[column] = df[column].astype(str).astype(int)
     
     # Clean up duplicates, if any
     if df.duplicated().sum() > 0:
