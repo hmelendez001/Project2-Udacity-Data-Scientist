@@ -1,5 +1,6 @@
 Flask==0.12.5
 gunicorn
+joblib
 nltk==3.2.5
 numpy==1.12.1
 pandas==0.23.3
