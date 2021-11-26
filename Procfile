@@ -1,1 +1,1 @@
-web gunicorn helderdisasterdash:app
+web: gunicorn app/run:app
