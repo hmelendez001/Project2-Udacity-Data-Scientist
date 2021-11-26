@@ -92,7 +92,7 @@ From the dashboard landing page type a test message like **we need tents and wat
 | 4 | curl https://cli-assets.heroku.com/install-ubuntu.sh \| sh | Install the necessary Heroku assets using their installation script | 
 | 5 | heroku login -i | Assuming you have a Heroku account already, if not go to heroku.com and set up your account then issue this command to login with your credentials |
 | 6 | git init<p/>git config --global user.email "you@example.com"<p/>git config --global user.name "Your Name" | Initialize a git repository with these ONE-TIME commands, if you do not already have one in Heroku |
-| 7 | cd web_app<p/>cp -R app/templates .<p/>cp app/run.py . | You will need to move the app contents to the root folder so that Heroku will find it at runtime, also you will need to update this version of run.py in web_app to not include host='0.0.0.0', port=3001, debug=True in the main function, simply call app.run() instead |
+| 7 | cd web_app<p/>cp -R app/templates .<p/>cp app/run.py . | You will need to copy the app contents to the root folder so that Heroku will find it at runtime |
 | 8 | git add .<p/>git status<p/>git commit -m "your message" | Use this chain of command to commit your files to the Heroku git repository |
 | 9 | heroku create my-app-name --buildpack heroku/python | Create a uniquely named Heroku app using this command. If you get a message that the app name is already taken, try again with a different app name until you find one that is not taken |
 | 10| git remote -v | Check that heroku added a remote repository with this command |
