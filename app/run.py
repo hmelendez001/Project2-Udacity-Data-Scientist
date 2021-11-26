@@ -188,7 +188,7 @@ def index():
     category_counts = [acount / total_count for acount in category_counts]
     
     # create visuals
-    graphs = [
+    figures = [
         {
             'data': [
                 Bar(
@@ -204,29 +204,29 @@ def index():
                 },
                 'xaxis': {
                     'title': "Genre"
-                }
-            }
+                },
+            },
         },
         {
             'data': [
                 Pie(
                     labels=category_names,
                     values=category_counts,
-                )
+                ),
             ],
 
             'layout': {
                 'title': 'Distribution of Represented Categories',
-            }
+            },
         },
     ]
     
-    # encode plotly graphs in JSON
-    ids = ["graph-{}".format(i) for i, _ in enumerate(graphs)]
-    graphJSON = json.dumps(graphs, cls=plotly.utils.PlotlyJSONEncoder)
+    # encode plotly figures in JSON
+    ids = ["figure-{}".format(i) for i, _ in enumerate(figures)]
+    figuresJSON = json.dumps(figures, cls=plotly.utils.PlotlyJSONEncoder)
     
-    # render web page with plotly graphs
-    return render_template('master.html', ids=ids, graphJSON=graphJSON)
+    # render web page with plotly figures
+    return render_template('master.html', ids=ids, figuresJSON=figuresJSON)
 
 
 # web page that handles user query and displays model results
