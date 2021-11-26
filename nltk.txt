@@ -1,3 +1,4 @@
+joblib
 wordnet
 punkt
 stopwords
