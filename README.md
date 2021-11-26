@@ -68,7 +68,7 @@ From the app folder run the following python command:<p/>
 | models > classifier.pkl | The saved model pickle file |
 | Procfile | Instructs the runtime to use gunicorn to run our dashboard |
 | README.md | The file you are currently reading |
-| requirements.txt | Contains the list of required libraries, a subset of those listed in the "Libraries Used" section above but includes the versions required at run time. This was generated using pipreqs |
+| requirements.txt | Contains the list of required libraries, a subset of those listed in the "Libraries Used" section above but includes the versions required at run time. This was generated using pipreqs:<p/>**pip install pipreqs**<p/>**pipreqs .** |
 | runtime.txt | The Python runtime version being used |
 
 # How to Deploy to the Heroku Hosting Platform
