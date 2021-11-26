@@ -30,6 +30,17 @@ Altenatively, to capture run times, from the root folder run the following pytho
 # How to Run the Web Application
 From the app folder run the following python command:<p/>
 ##### &nbsp;&nbsp;&nbsp;&nbsp; python run.py
+---
+You should see something like this on a local browser
+<img src='images/Project2DisasterDashboardBootstrap5.png'>
+---
+Alternatively you can run my Heroku cloud web installation here: https://helderdisasterdash.herokuapp.com/
+
+From the dashboard landing page type a test message like **we need tents and water. We are in Silo, Thank you!** into the input text fields that reads _Enter a message to classify_. Click the "Classify Message" button and you should see something like the following. Notice it shows the categories for your message, if any: 
+
+---
+<img src='images/Project2DisasterResultBootstrap5.png'>
+---
 
 # Libraries Used
 | Library | Description |
@@ -68,7 +79,7 @@ From the app folder run the following python command:<p/>
 | models > classifier.pkl | The saved model pickle file |
 | Procfile | Instructs the runtime to use gunicorn to run our dashboard |
 | README.md | The file you are currently reading |
-| requirements.txt | Contains the list of required libraries, a subset of those listed in the "Libraries Used" section above but includes the versions required at run time. This was generated using pipreqs:<p/>**pip install pipreqs**<p/>**pipreqs .** |
+| requirements.txt | Contains the list of required libraries, a subset of those listed in the "Libraries Used" section above but includes the versions required at run time. This was generated using pipreqs as follows:<p/>**pip install pipreqs**<p/>**pipreqs .** |
 | runtime.txt | The Python runtime version being used |
 
 # How to Deploy to the Heroku Hosting Platform
@@ -88,6 +99,8 @@ From the app folder run the following python command:<p/>
 
 # Summary of the results
 The dataset given was imbalanced (i.e. some labels like water have few examples and others like search_and_rescue, security, child_alone, shelter, clothing, etc. had none). We discovered this when first evaluating our model and seeing Scikit warnings that read "UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 in labels with no predicted samples." This imbalance affected training the model because our overall precision, recall, f1-score were skewed (with so many 0 results the averages were pulled down). Unlike with other data like financials, temperature readings there really is no way to necessarily impute the data. I cannot simply average out these gaps or even do other imputing strategies like fill forward or fill back data. NLP or Natural Language Processing does not give us these imputing options. Best we might do here to get a better evaluation result would be to emphasize the stats on the categories we know are not missing by passing the labels for the categories we do have.
+  
+Given more time I would have customized the web application dashboard further, using more the fontawesome icons and making the list of selected categories more reactive. Also, I would have included unit tests rather than running code from my Jupyter Notebook to test snippets. And finally I would have made the model pipeline component a module in PyPi.org to avoid repeating code like the tokenize function, the class UrgencyWordExtractor, and some of the other string constants like url_regex, alphanum_regex, and urgent_words.
 
 # Acknowledgements
 Several code snippets came from previous lessons in our Udacity Data Scientist program. Also, where employed I have credited various contributors from StackOverflow.com, geeksforgeeks.org at https://www.geeksforgeeks.org/, https://www.tutorialspoint.com/ for sample plotly graphs, and the Data Science Stack Exchange at https://datascience.stackexchange.com. A big thank you to our instructors and all those involved in the Udacity program.
