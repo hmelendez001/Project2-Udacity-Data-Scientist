@@ -77,6 +77,7 @@ From the dashboard landing page type a test message like **we need tents and wat
 | models | The directory contaning the scripts to run the Text Processing, Natural Language Processing (NLP), and Machine Learning (ML) pipelines |
 | models > train_classifier.py | A machine learning pipeline that loads data from a SQLite database, splits the dataset into training and test datasets, builds a text processing and machine learning pipeline, trains and tunes a model using GridSearchCV, outputs results on the test set, and exports the final model as a pickle file |
 | models > classifier.pkl | The saved model pickle file |
+| nltk.txt | This will tell Heroku to automatically download the modules in this file and install them into our application at build time |
 | Procfile | Instructs the runtime to use gunicorn to run our dashboard |
 | README.md | The file you are currently reading |
 | requirements.txt | Contains the list of required libraries, a subset of those listed in the "Libraries Used" section above but includes the versions required at run time. This was generated using pipreqs as follows:<p/>**pip install pipreqs**<p/>**pipreqs .** |
