@@ -307,7 +307,9 @@ def evaluate_model(model, X_test, Y_test, category_names):
     # This was our first clue that the dataset we were given was imbalanced. There is no way to impute missing text data at this time. 
     # This is why we introduced the categories array: non_missing_categories, so that we could get a "Balanced" precision, recall, f1-score 
     # averages below using these labels/categories
-    non_missing_categories = ['related', 'request', 'aid_related', 'water', 'food']
+    non_missing_categories = ['related', 'aid_related', 'weather_related', 'direct_report', 'request', 'other_aid', 'food', 'earthquake', 'storm'
+                              , 'shelter', 'floods', 'medical_help', 'infrastructure_related', 'water', 'other_weather', 'buildings', 'medical_products'
+                             ]
 
     print('    Weighted Precision: {:.2f}'.format(precision_score(Y_test, y_pred, average='weighted')))
     print('    Weighted Recall: {:.2f}'.format(recall_score(Y_test, y_pred, average='weighted')))
@@ -378,19 +380,41 @@ def main():
            'infrastructure_related', 'transport', 'buildings', 'electricity',
            'tools', 'hospitals', 'shops', 'aid_centers', 'other_infrastructure',
            'weather_related', 'floods', 'storm', 'fire', 'earthquake', 'cold',
-           'other_weather'],
+           'other_weather', 'direct_report'],
           dtype='object')
         Confusion Matrix:
      [[20]]
         
         Best Parameters: {'features__text_pipeline__tfidf__use_idf': True, 'features__text_pipeline__vect__max_df': 0.5, 'features__text_pipeline__vect__max_features': None, 'features__text_pipeline__vect__ngram_range': (1, 2)}
 
-        Accuracy: 0.9125
-        F1 Score: 0.98
+        Accuracy: 0.15
+        Weighted Precision: 0.61
+        Weighted Recall: 0.80
+        Weighted F1-score: 0.69
         
-        Micro Precision: 0.55
-        Micro Recall: 0.56
-        Micro F1-score: 0.55
+        Classification Report
+                        precision    recall  f1-score   support
+
+               related       1.00      0.84      0.91        19
+           aid_related       0.77      0.91      0.83        11
+       weather_related       0.00      0.00      0.00         0
+         direct_report       0.59      0.91      0.71        11
+               request       0.00      0.00      0.00         1
+             other_aid       0.00      0.00      0.00         1
+                  food       0.00      0.00      0.00         0
+            earthquake       0.00      0.00      0.00         1
+                 storm       0.00      0.00      0.00         0
+               shelter       0.00      0.00      0.00         0
+                floods       0.50      0.75      0.60         4
+          medical_help       0.83      0.83      0.83         6
+infrastructure_related       0.00      0.00      0.00         1
+                 water       0.00      0.00      0.00         0
+         other_weather       0.00      0.00      0.00         0
+             buildings       0.00      0.00      0.00         0
+      medical_products       0.00      0.00      0.00         0
+
+           avg / total       0.61      0.80      0.69        64
+    
    Saving model...
         MODEL: models/classifier.pkl
     Trained model saved!
