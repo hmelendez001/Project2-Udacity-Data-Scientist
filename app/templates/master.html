@@ -7,35 +7,42 @@
 
     <title>Helder's Disasters</title>
 
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+	<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha384-tsQFqpEReu7ZLhBV2VZlAu7zcOV+rXbYlF2cqB8txI/8aZajjp4Bqd+V6D5IgvKT" crossorigin="anonymous"></script> 
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+	<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
     <!-- Bootstrap 4 does not have its own icon library. To use Font Awesome icons, we add the following to your HTML page -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 </head>
 
 <body>
 
-<nav class="navbar navbar-inverse navbar-fixed-top">
-    <div class="container">
-        <div class="navbar-header">
-            <a class="navbar-brand" href="/">Disaster Response Project</a>
-        </div>
-        <div id="navbar" class="collapse navbar-collapse">
-            <ul class="nav navbar-nav">
-                <li><a href="https://www.udacity.com/" target="_blank">Made with Udacity</a></li>
-                <li><a href="https://github.com/hmelendez001" target="_blank">Contact</a></li>
-            </ul>
-        </div>
-    </div>
-</nav>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+    <a class="navbar-brand" href="/">Disaster Response Project</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" 
+  data-target="#navbarTogglerDemo02" 
+  aria-controls="navbarTogglerDemo02" aria-expanded="false" 
+  aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
 
+  <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+    <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+      <li class="nav-item">
+        <a class="nav-link" href="https://www.udacity.com" target="_blank">Udacity</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="https://github.com/hmelendez001/" target="_blank">Contact</a>
+      </li>
+    </ul>
+  </div>
+</nav>
 
 <div class="jumbotron">
     <div class="container">
         <h1 class="text-center">Disaster Response Project</h1>
-        <p class="text-center">Analyzing message data for disaster response</p>
+        <h4 class="text-center">Analyzing message data for disaster response</h4>
         <hr />
       
         <div class="row">
@@ -43,38 +50,47 @@
                 <form action="/go" method="get">
                     <input type="text" class="form-control form-control-lg" name="query" placeholder="Enter a message to classify">
                     <p/>
-                    <div class="col-lg-offset-5">
+                    <div class="col-xs-1" align="center">
                         <button type="submit" class="btn btn-lg btn-success">Classify Message</button>
                     </div>
                 </form>
             </div>
         </div>
 
-        {% block message %}
-        {% endblock %}
     </div>
 </div>
 
 <div class="container">
     {% block content %}
-        <div class="page-header">
-            <h1 class="text-center">Overview of Training Dataset</h1>
+    <div class="row">
+        <div class="col">
+          <h1 class="text-center">Overview of Training Dataset</h1>
         </div>
+    </div>
     {% endblock %}
-
-    {% for id in ids %}
-        <div id="{{id}}"></div>
-    {% endfor %}
   
+	<div class="row">
+    {% for id in ids %}
+    	<div class="col">
+      	  <div id="{{id}}"></div>
+    	</div>
+  	{% endfor %}
+	</div>
 </div>
 
-<script type="text/javascript">
-    const graphs = {{graphJSON | safe}};
-    const ids = {{ids | safe}};
-    for(let i in graphs) {
-        Plotly.plot(ids[i], graphs[i].data, graphs[i].layout);
-    }
-</script>
+<footer>
+    <script type="text/javascript">
+        // plots the figure with id
+        // id much match the div id above in the html
+        var figures = {{figuresJSON | safe}};
+        var ids = {{ids | safe}};
+        for(var i in figures) {
+            Plotly.plot(ids[i],
+                figures[i].data,
+                figures[i].layout || {});
+        }
+    </script>
+</footer>
 
 </body>
 </html>
