@@ -8,14 +8,10 @@ import re
 import numpy as np
 import pandas as pd
 from sqlalchemy import create_engine
-from nltk.corpus import stopwords
-from nltk.stem.wordnet import WordNetLemmatizer
-from nltk.tokenize import word_tokenize, sent_tokenize
 from sklearn.metrics import confusion_matrix
 from sklearn.model_selection import GridSearchCV
 from sklearn.model_selection import train_test_split
 from sklearn.pipeline import Pipeline, FeatureUnion
-from sklearn.base import BaseEstimator, TransformerMixin
 from sklearn.feature_extraction.text import CountVectorizer, TfidfTransformer
 from sklearn.metrics import classification_report
 from sklearn.datasets import make_multilabel_classification
@@ -26,86 +22,9 @@ from sklearn.svm import SVC
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, classification_report
 import sklearn.metrics as metrics
 
-# Regular expression to find URLs in text
-url_regex = 'http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+'
+from UrgencyWordExtractor import UrgencyWordExtractor
+from MyTokenize import MyTokenize
 
-# Regular expression to find alpha numeric characters to isolate punctuation
-alphanum_regex = "[^a-zA-Z0-9]"
-
-# From Synonyms of EMERGENCY by Oxford Dictionary on Lexico at https://www.lexico.com/synonyms/emergency
-urgent_words = ['emergency', 'crisis', 'urgent', 'extremity', 'exigency', 'accident', 'catastrophe', 'calamity'
-                , 'difficulty', 'plight', 'predicament', 'tight spot', 'tight corner', 'mess', 'quandary', 'dilemma'
-                , 'unforeseen circumstances', 'desperate straits', 'dire straits', 'danger', 'critical']
-
-class UrgencyWordExtractor(BaseEstimator, TransformerMixin):
-    """
-    A class to find instances of synonyms for the word EMERGENCY.
-
-    ...
-
-    Attributes
-    ----------
-    None
-
-    Methods
-    -------
-    urgent_words(text):
-        Determines if the given text contains any of the known synonyms for emergency.
-   fit(x, y=None):
-        Returns default model fit.
-   transform(X):
-        Returns a Pandas DataFrame where urgent_words was applied.
-    """
-    def urgent_words(self, text):
-        """
-        Determines if the given text contains any of the known synonyms for emergency.
-
-        Parameters
-        ----------
-        text : str
-            The string text to analyze
-
-        Returns
-        -------
-        True if the given string text has any synonyms for emergency, False otherwise.
-        """
-        if any(word in urgent_words for word in text.lower()):
-            return True
-        return False
-
-    def fit(self, x, y=None):
-        """
-        Returns default model fit.
-
-        Parameters
-        ----------
-        x : Pandas.Series
-            x values
-        y : Pandas.Series, default None
-            y values
-
-        Returns
-        -------
-        Returns self.
-        """
-        return self
-
-    def transform(self, X):
-        """
-        Transforms the given Pandas Series X into a Pandas DataFrame with the urgent_words filter applied.
-
-        Parameters
-        ----------
-        X : Pandas.Series
-            X values
-
-        Returns
-        -------
-        Pandas DataFrame.
-        """
-        X_tagged = pd.Series(X).apply(self.urgent_words)
-        return pd.DataFrame(X_tagged)
-    
 def load_data(database_filepath):
     """
     Load the messages data from a SQL table using the given database_filename SQL connection
@@ -153,46 +72,6 @@ def load_data(database_filepath):
     
     return X, y, category_names
 
-def tokenize(text):
-    """
-    Tokenize and clean up the given text using NLTK to Lemmatize and clean to lower case as well as strip white space, remove stop words and any URLs
-
-    Parameters
-    ----------
-    text : string
-        The text string we are tokenizing and cleaning
-
-    Returns
-    -------
-    array
-        Return the cleaned string tokens in a string array
-
-    Examples
-    --------
-    >>> tokens = tokenize("Hello, world, are you there?")
-    
-    """
-    # Let's clean up any URLs in the text so they will not cause any unwanted noise in the model
-    detected_urls = re.findall(url_regex, text)
-    for url in detected_urls:
-        text = text.replace(url, "urlplaceholder")
-
-    # Initialize the Lemmatizer
-    lemmatizer = WordNetLemmatizer()
-    
-    # normalize case and remove punctuation
-    text = re.sub(alphanum_regex, " ", text.lower())
-    
-    # tokenize text
-    tokens = word_tokenize(text)
-    
-    # lemmatize and remove stop words
-    stop_words = set(stopwords.words('english'))
-    tokens = [lemmatizer.lemmatize(word).strip() for word in tokens if word not in stop_words]
-
-    return tokens
-
-
 def build_model():
     """
     Return the ML pipeline that will take in the message column as input and output classification results on the other 36 categories in the dataset
@@ -219,7 +98,7 @@ def build_model():
         ('features', FeatureUnion([
 
             ('text_pipeline', Pipeline([
-                ('vect', CountVectorizer(tokenizer=tokenize)),
+                ('vect', CountVectorizer(tokenizer=MyTokenize)),
                 ('tfidf', TfidfTransformer()),
             ])),
 
