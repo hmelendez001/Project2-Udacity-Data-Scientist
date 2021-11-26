@@ -1,3 +1,4 @@
 wordnet
-pros_cons
-reuters
+punk
+stopwords
+averaged_perceptron_tagger
