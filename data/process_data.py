@@ -99,6 +99,8 @@ def clean_data(df):
             df[column] = df[column].apply(lambda x: x.replace("{}-".format(column), ""))
             # convert column from string to numeric
             df[column] = df[column].astype(str).astype(int)
+            # Let's make sure our values are binary, so either 0 or 1 (if not 0)
+            df[column] = df[column].apply(lambda x: 1 if x != 0 else 0)
 
     return df
 
