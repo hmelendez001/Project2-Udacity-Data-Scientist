@@ -1,7 +1,8 @@
 import sys
 import pickle
 import nltk
-nltk.download(['punkt', 'wordnet', 'averaged_perceptron_tagger'])
+from nltk.corpus import stopwords
+nltk.download(['punkt', 'stopwords', 'wordnet', 'averaged_perceptron_tagger'])
 
 import re
 import numpy as np
@@ -184,10 +185,11 @@ def evaluate_model(model, X_test, Y_test, category_names):
     # see https://stackoverflow.com/a/47285662/2788414
     # This was our first clue that the dataset we were given was imbalanced. There is no way to impute missing text data at this time. 
     # This is why we introduced the categories array: non_missing_categories, so that we could get a "Balanced" precision, recall, f1-score 
-    # averages below using these labels/categories
-    non_missing_categories = ['related', 'aid_related', 'weather_related', 'direct_report', 'request', 'other_aid', 'food', 'earthquake', 'storm'
-                              , 'shelter', 'floods', 'medical_help', 'infrastructure_related', 'water', 'other_weather', 'buildings', 'medical_products'
-                             ]
+    # averages below using these labels/categories, HOWEVER, runtime is giving us error so not using for now:
+    # ValueError: Number of classes, 36, does not match size of target_names, 17. Try specifying the labels parameter
+    #non_missing_categories = ['related', 'aid_related', 'weather_related', 'direct_report', 'request', 'other_aid', 'food', 'earthquake', 'storm'
+    #                          , 'shelter', 'floods', 'medical_help', 'infrastructure_related', 'water', 'other_weather', 'buildings', 'medical_products'
+    #                         ]
 
     print('    Weighted Precision: {:.2f}'.format(precision_score(Y_test, y_pred, average='weighted')))
     print('    Weighted Recall: {:.2f}'.format(recall_score(Y_test, y_pred, average='weighted')))
@@ -198,7 +200,7 @@ def evaluate_model(model, X_test, Y_test, category_names):
     # are not coming up with a child alone positive). This is why we introduced target_names=non_missing_categories instead of 
     # using all the categories with target_names=category_names
     print('\nClassification Report\n')
-    print(classification_report(Y_test, y_pred, target_names=non_missing_categories))
+    print(classification_report(Y_test, y_pred, target_names = category_names))##, target_names = non_missing_categories))
 
 def save_model(model, model_filepath):
     """
