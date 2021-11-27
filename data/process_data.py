@@ -98,36 +98,6 @@ def clean_data(df):
 
     return df
 
-def drop_table(engine, table_name):
-    """
-    Given a SQL engine connection and table name drop that table if it already exists in the SQL database.
-    Shout out to StackOverFlow user Levon for this nice idempotent drop table logic: https://stackoverflow.com/a/54843210/2788414
-
-    Parameters
-    ----------
-    engine : sqlalchemy.engine.Engine
-        SQL engine connection
-    table_name : string
-        SQL table name to drop, if it exists
-
-    Returns
-    -------
-    None
-
-    Examples
-    --------
-    >>> drop_table(engine, 'MyNewTable')
-    
-    >>> drop_table(engine, 'MyExistingTable')
-    Deleting MyExistingTable table
-    """
-    base = declarative_base()
-    metadata = MetaData(engine, reflect=True)
-    table = metadata.tables.get(table_name)
-    if table is not None:
-        print(f'Deleting {table_name} table')
-        base.metadata.drop_all(engine, [table], checkfirst=True)
-
 def save_data(df, database_filename):
     """
     Save the given Pandas DataFrame to the given database_filename SQL connection database
@@ -154,11 +124,8 @@ def save_data(df, database_filename):
     """
     # Initialize the SQL engine connection given the database_filename
     engine = create_engine('sqlite:///' + database_filename)
-    # This call to drop_table allows us to run this multiple times by dropping the table if it already exists in the database
-    # TODO: This magic string table name should be a parameter that comes from a central configuration instead of hardcoding it across the code
-    drop_table(engine, 'Messages')
-    # Write the DataFrame to SQL
-    df.to_sql('Messages', engine, index=False)  
+    # Write the DataFrame to SQL, added if_exists = 'replace' to make this call idempotent thanks to the udacity reviewer for this tip
+    df.to_sql('Messages', engine, index=False, if_exists = 'replace')  
 
 def main():
     """
