@@ -1,8 +1,7 @@
 import sys
 import pickle
 import nltk
-from nltk.corpus import stopwords
-nltk.download(['punkt', 'stopwords', 'wordnet', 'averaged_perceptron_tagger'])
+nltk.download(['punkt', 'wordnet', 'averaged_perceptron_tagger'])
 
 import re
 import numpy as np
