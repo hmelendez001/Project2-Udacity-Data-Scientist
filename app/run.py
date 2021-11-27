@@ -13,7 +13,7 @@ from plotly.graph_objs import Bar, Pie
 from sklearn.externals import joblib
 from sqlalchemy import create_engine
 import sys
-sys.path.append('models')
+sys.path.append('../models')
 from UrgencyWordExtractor import UrgencyWordExtractor
 from MyTokenize import MyTokenize
 
