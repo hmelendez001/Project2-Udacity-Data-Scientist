@@ -5,12 +5,13 @@ import numpy as np
 import pandas as pd
 
 import nltk
-nltk.download(['punkt', 'wordnet', 'averaged_perceptron_tagger'])
+nltk.download(['punkt', 'stopwords', 'wordnet', 'averaged_perceptron_tagger'])
 
 from flask import Flask
 from flask import render_template, request, jsonify
 from plotly.graph_objs import Bar, Pie
-from sklearn.externals import joblib
+#import sklearn.external.joblib as extjoblib
+import joblib
 from sqlalchemy import create_engine
 import sys
 sys.path.append('../models')
