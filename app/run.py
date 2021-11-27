@@ -5,7 +5,7 @@ import numpy as np
 import pandas as pd
 
 import nltk
-nltk.download(['punkt', 'stopwords', 'wordnet', 'averaged_perceptron_tagger'])
+nltk.download(['punkt', 'wordnet', 'averaged_perceptron_tagger'])
 
 from flask import Flask
 from flask import render_template, request, jsonify
