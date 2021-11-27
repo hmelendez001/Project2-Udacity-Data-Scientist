@@ -55,6 +55,14 @@ def load_data(messages_filepath, categories_filepath):
     # rename the columns of `categories`
     categories36.columns = category_colnames
     
+    # Before attempting a merge via the concatenate call, clean up duplicates, if any
+    if messages.duplicated(subset=['id']).sum() > 0:
+        print("Cleaning up messages duplicates {}...".format(messages.duplicated(subset=['id']).sum()))
+        messages.drop_duplicates(inplace=True, subset=['id'])
+    if categories36.duplicated(subset=['id']).sum() > 0:
+        print("Cleaning up categories duplicates {}...".format(categories36.duplicated(subset=['id']).sum()))
+        categories36.drop_duplicates(inplace=True, subset=['id'])
+    
     # concatenate the original dataframe with the new `categories36` dataframe by id
     frames = [messages.set_index('id'), categories36.set_index('id')]
     df = pd.concat(frames, sort=True, axis=1, join='inner')
@@ -91,10 +99,6 @@ def clean_data(df):
             df[column] = df[column].apply(lambda x: x.replace("{}-".format(column), ""))
             # convert column from string to numeric
             df[column] = df[column].astype(str).astype(int)
-    
-    # Clean up duplicates, if any
-    if df.duplicated().sum() > 0:
-        df.drop_duplicates(inplace=True)
 
     return df
 
